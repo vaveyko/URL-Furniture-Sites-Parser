@@ -27,7 +27,7 @@ class URLParser():
             return []
 
         print("Parse html;")
-        tags = soup.find_all(['h1', 'h2', 'h3', 'h4', 'a', 'span'])
+        tags = soup.find_all(['h1', 'h2', 'h3', 'h4', 'a', 'span', 'p'])
         text = [tag.get_text(strip=True, separator=" ") for tag in tags]
 
         preprocessed_data = []

@@ -25,7 +25,7 @@ model, parser = load_my_model()
 
 with st.sidebar:
     st.header("Настройки модели")
-    threshold = st.slider("Порог уверенности (Precision)", 0.45, 0.95, 0.5)
+    threshold = st.slider("Порог классификации", 0.45, 0.95, 0.5)
 
 urls = st.text_area(
     "Список URL:",
@@ -72,7 +72,7 @@ if st.session_state['raw_results']:
 
     full_data = pd.DataFrame(st.session_state['raw_results'])
     full_data = full_data.drop_duplicates(subset=['name'], keep='first')
-    filtered_df = full_data[full_data['proba'] > threshold].copy()
+    filtered_df = full_data[full_data['proba'] > threshold].copy().reset_index(drop=True)
 
     if not filtered_df.empty:
         st.success(f"Найдено товаров: {len(filtered_df)}")
@@ -86,10 +86,10 @@ if st.session_state['raw_results']:
         with tab2:
             for source_url in filtered_df['URL'].unique():
                 with st.expander(f"Источник: {source_url}"):
-                    sub = filtered_df[filtered_df['URL'] == source_url][['name', 'proba']]
+                    sub = filtered_df[filtered_df['URL'] == source_url][['name', 'proba']].reset_index(drop=True)
                     st.table(sub.style.background_gradient(subset=['proba'], cmap='YlGn'))
     else:
-        st.warning("Нет товаров с такой уверенностью. Попробуйте снизить порог.")
+        st.warning("Нет товаров с таким порогом классификации. Попробуйте снизить порог.")
 
 
 st.divider()
