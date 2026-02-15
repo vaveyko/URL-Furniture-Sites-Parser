@@ -5,7 +5,7 @@ from typing import List
 
 
 class BertLinear(nn.Module):
-    def __init__(self, bert_path=r'.\local_bert', freez_bert=True):
+    def __init__(self, bert_path=r'./local_bert', freez_bert=True):
         super().__init__()
         self.bert = AutoModel.from_pretrained(bert_path)
         self.bert.requires_grad_(not freez_bert)
