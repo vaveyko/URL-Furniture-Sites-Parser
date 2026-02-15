@@ -20,7 +20,7 @@ class URLParser():
             response = requests.get(url, headers=self.headers, timeout=10)
 
             print("Get html;", end=" ")
-            soup = BeautifulSoup(response.text, 'html.parser')
+            soup = BeautifulSoup(response.text, 'lxml')
 
         except Exception as e:
             print("URL is not available, error")
