@@ -20,22 +20,18 @@ class URLParser():
             response = requests.get(url, headers=self.headers, timeout=10)
 
             print("Get html;", end=" ")
-            soup = BeautifulSoup(response.text, 'lxml')
+            soup = BeautifulSoup(response.text, 'html.parser')
 
         except Exception as e:
             print("URL is not available, error")
             return []
 
         print("Parse html;")
-        tags = soup.find_all(['h1', 'h2', 'h3', 'h4'])
-        links_1 = soup.find_all("a", class_=lambda x: x and ("product" in x))
-        links_2 = soup.find_all("a", href=lambda h: h and "product" in h)
-
-        link_text = [link.get_text(strip=True, separator=" ") for link in links_1] + [link.get_text(strip=True) for link in links_2]
+        tags = soup.find_all(['h1', 'h2', 'h3', 'h4', 'a', 'span'])
         text = [tag.get_text(strip=True, separator=" ") for tag in tags]
 
         preprocessed_data = []
-        for line in link_text + text:
+        for line in text:
             lower = line.lower()
             if line and line not in preprocessed_data:
                 preprocessed_data.append(lower)

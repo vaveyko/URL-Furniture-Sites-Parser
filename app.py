@@ -1,5 +1,5 @@
 import streamlit as st
-from Model import BertLinear, predict, predict_one
+from Model import BertLinear, predict_one
 from PreprocessText import URLParser
 import pandas as pd
 
@@ -45,6 +45,7 @@ if st.button("Начать парсинг"):
                     input_texts = parser.parse_one(url)
                     if not input_texts:
                         st.warning(f"Текст не найден на {url}")
+                        status.update(label=f"Не найдено: {url}", state="complete")
                         continue
 
                     outputs = predict_one(input_texts, model, True)
