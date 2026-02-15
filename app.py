@@ -25,8 +25,7 @@ model, parser = load_my_model()
 
 with st.sidebar:
     st.header("Настройки модели")
-    threshold = st.slider("Порог уверенности (Precision)", 0.5, 0.95, 0.5)
-    st.info("Чем выше порог, тем меньше мусора, но меньше товаров.")
+    threshold = st.slider("Порог уверенности (Precision)", 0.45, 0.95, 0.5)
 
 urls = st.text_area(
     "Список URL:",
@@ -68,10 +67,10 @@ if st.button("Начать парсинг"):
     else:
         st.warning("Пожалуйста, введите URL.")
 
-# --- ВЫВОД РЕЗУЛЬТАТОВ ---
 if st.session_state['raw_results']:
-    # 1. Фильтруем данные из памяти по текущему значению слайдера
+
     full_data = pd.DataFrame(st.session_state['raw_results'])
+    full_data = full_data.drop_duplicates(subset=['name'], keep='first')
     filtered_df = full_data[full_data['proba'] > threshold].copy()
 
     if not filtered_df.empty:
