@@ -1,6 +1,5 @@
 import time
 
-from pandas.io.xml import preprocess_data
 from selenium import webdriver
 from selenium.common import WebDriverException
 from selenium.webdriver.chrome.options import Options
